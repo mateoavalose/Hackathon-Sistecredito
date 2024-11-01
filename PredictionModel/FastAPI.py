@@ -7,12 +7,16 @@ from io import BytesIO
 from xgboost import XGBRegressor
 import asyncpg
 import os
+from dotenv import load_dotenv
 
 # Configuración de FastAPI
 app = FastAPI()
 
 # Variables de entorno para la conexión a la base de datos
+load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL is None:
+    raise ValueError("La variable de entorno DATABASE_URL no está definida")
 
 # Función para cargar datos de PostgreSQL
 async def fetch_product_history(product_id: str):
