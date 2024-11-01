@@ -6,4 +6,9 @@ matplotlib
 xgboost
 asyncpg
 python-dotenv
+<<<<<<< HEAD
 scikit-learn
+=======
+npm
+nats
+>>>>>>> 4f6dcc0 (Update requirements.txt)
