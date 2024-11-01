@@ -6,3 +6,4 @@ matplotlib
 xgboost
 asyncpg
 python-dotenv
+scikit-learn
