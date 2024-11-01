@@ -7,8 +7,11 @@ xgboost
 asyncpg
 python-dotenv
 <<<<<<< HEAD
+<<<<<<< HEAD
 scikit-learn
 =======
 npm
 nats
 >>>>>>> 4f6dcc0 (Update requirements.txt)
+=======
+>>>>>>> 6440b9c (Update requirements.txt)
