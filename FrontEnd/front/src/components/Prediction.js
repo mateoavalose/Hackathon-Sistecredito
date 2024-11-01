@@ -3,7 +3,6 @@ import "../styles/PredictionStyle.css"; // Asegúrate de importar tu CSS aquí
 
 const PredictionPage = () => {
   const [inputValue, setInputValue] = useState("");
-  const [prediction, setPrediction] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -14,27 +13,37 @@ const PredictionPage = () => {
   const handlePrediction = async () => {
     if (!inputValue) return;
 
+    // Construye la URL de la API
+    const apiUrl = `${process.env.REACT_APP_FASTAPI_APP_URL}${inputValue}`;
+
+    // Abre la URL en una nueva pestaña
+    window.open(apiUrl, "_blank");
+
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_FASTAPI_APP_URL}${inputValue}`,
-        {
-          method: "GET",
-        }
-      );
+      const response = await fetch(apiUrl, {
+        method: "GET",
+      });
 
       if (!response.ok) {
+        // Si la respuesta no es OK, manejamos el error
         const errorData = await response.json();
         throw new Error(errorData.message || "Error en la predicción");
       }
 
-      // Asumiendo que la respuesta es un JSON con { prediction: "resultado" }
-      const data = await response.json();
-      setPrediction(data.prediction); // o manejar como una imagen si es necesario
+      // Aquí se asume que la respuesta es la imagen en sí
+      const imageBlob = await response.blob(); // Obtiene la imagen como un Blob
+      const imageUrl = URL.createObjectURL(imageBlob); // Crea una URL para el Blob
+
+      // Abre la URL de la imagen en una nueva pestaña
+      window.open(imageUrl, "_blank");
     } catch (err) {
-      setError(err.message);
+      // En lugar de mostrar el mensaje "Failed to fetch", puedes establecer un error genérico
+      if (err.message !== "Failed to fetch") {
+        setError("Error al realizar la solicitud. Inténtalo de nuevo."); // Mensaje genérico
+      }
     } finally {
       setLoading(false);
     }
@@ -70,15 +79,6 @@ const PredictionPage = () => {
             <p className="mt-4 text-center text-blue-600">Cargando...</p>
           )}
           {error && <p className="mt-4 text-red-600 text-center">{error}</p>}
-          {prediction && (
-            <div className="mt-4 text-center">
-              <img
-                src={prediction}
-                alt="Predicción"
-                className="max-w-full h-auto" // Ajusta el tamaño según sea necesario
-              />
-            </div>
-          )}
         </div>
       </div>
     </div>
