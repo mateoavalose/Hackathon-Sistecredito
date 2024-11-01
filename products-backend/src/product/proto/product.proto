@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package product; // Nombre del paquete
+
+// Mensaje para crear un producto
+message CreateProductRequest {
+  string product_id = 1;
+  string product_name = 2;
+  int32 product_stock = 3;
+  float product_price = 4;
+}
+
+// Mensaje para la respuesta al crear un producto
+message CreateProductResponse {
+  string product_id = 1;
+  string product_name = 2;
+  int32 product_stock = 3;
+  float product_price = 4;
+}
+
+// Mensaje para obtener un producto
+message GetProductRequest {
+  string id = 1; // ID del producto que se quiere obtener
+}
+
+// Mensaje para la respuesta al obtener un producto
+message GetProductResponse {
+  string product_id = 1;
+  string product_name = 2;
+  int32 product_stock = 3;
+  float product_price = 4;
+}
+
+// Servicio del producto
+service ProductService {
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse); // Método para crear un producto
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse); // Método para obtener un producto
+}
