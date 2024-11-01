@@ -6,3 +6,5 @@ matplotlib
 xgboost
 asyncpg
 python-dotenv
+npm
+nats
