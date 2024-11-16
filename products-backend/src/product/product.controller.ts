@@ -24,16 +24,14 @@ export class ProductController {
     return this.productService.findOne(payload.id);
   }
 
-  @MessagePattern('updateProduct')
-  update(@Payload() updateProductDto: UpdateProductDto) {
-    return this.productService.update(
-      updateProductDto.product_id,
-      updateProductDto,
-    );
+  @MessagePattern('UpdateProduct')
+  update(@Payload() payload: { id: string; data: UpdateProductDto }) {
+    return this.productService.update(payload.id, payload.data);
   }
 
-  @MessagePattern('removeProduct')
-  remove(@Payload() id: string) {
-    return this.productService.remove(id);
+  @MessagePattern('DeleteProduct')
+  remove(@Payload() payload: { id: string }) {
+    // Ajusta a un objeto con "id"
+    return this.productService.remove(payload.id);
   }
 }

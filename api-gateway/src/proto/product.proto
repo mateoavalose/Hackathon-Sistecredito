@@ -31,8 +31,33 @@ message GetProductResponse {
   float product_price = 4;
 }
 
+// Mensaje para actualizar un producto
+message UpdateProductRequest {
+  string id = 1; // ID del producto a actualizar
+  string product_name = 2;
+  int32 product_stock = 3;
+  float product_price = 4;
+}
+
+// Mensaje para la respuesta al actualizar un producto
+message UpdateProductResponse {
+  bool success = 1; // Indica si la actualización fue exitosa
+}
+
+// Mensaje para eliminar un producto
+message DeleteProductRequest {
+  string id = 1; // ID del producto a eliminar
+}
+
+// Mensaje para la respuesta al eliminar un producto
+message DeleteProductResponse {
+  bool success = 1; // Indica si la eliminación fue exitosa
+}
+
 // Servicio del producto
 service ProductService {
   rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse); // Método para crear un producto
   rpc GetProduct(GetProductRequest) returns (GetProductResponse); // Método para obtener un producto
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse); // Método para actualizar un producto
+  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse); // Método para eliminar un producto
 }

@@ -29,7 +29,8 @@ const ProductList = ({
             className="border p-2 flex justify-between items-center"
           >
             <span>
-              {product.name} - ${product.price} (Stock: {product.stock})
+              {product.product_name} - ${product.product_price} (Stock:{" "}
+              {product.product_stock})
             </span>
             <div>
               <button

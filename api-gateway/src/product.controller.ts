@@ -5,6 +5,8 @@ import {
   OnModuleInit,
   Post,
   Body,
+  Delete,
+  Patch,
 } from '@nestjs/common';
 import {
   ClientProxy,
@@ -35,6 +37,21 @@ interface GetProductResponse {
   product_price: number;
 }
 
+interface UpdateProductRequest {
+  product_name?: string;
+  product_stock?: number;
+  product_price?: number;
+}
+
+interface UpdateProductResponse {
+  success: boolean; // Indica si la actualización fue exitosa
+}
+
+// Interface para eliminar un producto
+interface DeleteProductResponse {
+  success: boolean; // Indica si la eliminación fue exitosa
+}
+
 @Controller('products')
 export class ProductController implements OnModuleInit {
   private client: ClientProxy;
@@ -62,6 +79,25 @@ export class ProductController implements OnModuleInit {
     return this.client.send<CreateProductResponse, CreateProductRequest>(
       'CreateProduct',
       productData,
+    );
+  }
+
+  @Patch(':id')
+  UpdateProduct(
+    @Param('id') id: string,
+    @Body() updateData: UpdateProductRequest,
+  ): Observable<UpdateProductResponse> {
+    return this.client.send<
+      UpdateProductResponse,
+      { id: string; data: UpdateProductRequest }
+    >('UpdateProduct', { id, data: updateData });
+  }
+
+  @Delete(':id')
+  DeleteProduct(@Param('id') id: string): Observable<DeleteProductResponse> {
+    return this.client.send<DeleteProductResponse, { id: string }>(
+      'DeleteProduct',
+      { id },
     );
   }
 }

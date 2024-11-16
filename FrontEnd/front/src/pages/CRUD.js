@@ -10,16 +10,18 @@ const CRUD = () => {
 
   const fetchProducts = async () => {
     const API_URL = process.env.REACT_APP_API_URL;
-    const response = await axios.get(`${API_URL}/products`);
+    console.log(API_URL);
+    const response = await axios.get(`${API_URL}`);
     setProducts(response.data);
   };
 
   useEffect(() => {
-    fetchProducts();
+    //fetchProducts();
   }, []);
 
-  const handleProductAdded = (newProduct) => {
+  const handleProductAdded = async (newProduct) => {
     setProducts((prev) => [...prev, newProduct]);
+    await fetchProducts();
   };
 
   const handleProductUpdated = (updatedProduct) => {
@@ -44,7 +46,7 @@ const CRUD = () => {
     if (!searchId) return;
 
     try {
-      const response = await axios.get(`${API_URL}/products/${searchId}`);
+      const response = await axios.get(`${API_URL}/${searchId}`);
       setProducts([response.data]); // Reemplazamos el estado de productos con el resultado de la búsqueda
       setSearchId(""); // Limpiamos el campo de búsqueda
     } catch (error) {
@@ -55,20 +57,25 @@ const CRUD = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold">Gestión de Productos</h1>
-      <input
-        type="text"
-        value={searchId}
-        onChange={(e) => setSearchId(e.target.value)}
-        placeholder="Buscar producto por ID"
-        className="mt-4 p-2 border border-gray-300 rounded-lg"
-      />
-      <button
-        onClick={handleSearchById}
-        className="ml-2 bg-blue-600 text-white p-2 rounded-lg"
-      >
-        Buscar
-      </button>
+      <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">
+        Gestión de Productos
+      </h1>
+      <div className="flex flex-col items-center">
+        <input
+          type="text"
+          value={searchId}
+          onChange={(e) => setSearchId(e.target.value)}
+          placeholder="Buscar producto por ID"
+          className="mt-6 p-4 border-2 border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-200 w-full max-w-md" // Asegúrate de que tenga un ancho máximo
+        />
+        <button
+          onClick={handleSearchById}
+          className="mt-3 bg-blue-700 text-white p-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200"
+        >
+          Buscar
+        </button>
+      </div>
+
       <ProductForm
         onProductAdded={handleProductAdded}
         productToEdit={productToEdit}
