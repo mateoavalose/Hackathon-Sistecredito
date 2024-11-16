@@ -100,4 +100,9 @@ export class ProductController implements OnModuleInit {
       { id },
     );
   }
+
+  @Get()
+  GetProducts(): Observable<GetProductResponse[]> {
+    return this.client.send<GetProductResponse[]>('findAllProduct', {});
+  }
 }
