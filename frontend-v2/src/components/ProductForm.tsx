@@ -45,7 +45,7 @@ export const ProductForm = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const API_URL = import.meta.env.VITE_BACKEND_URL;
-    const method = isCreating ? "post" : "put";
+    const method = isCreating ? "post" : "patch";
     const endpoint = isCreating
       ? `${API_URL}/products`
       : `${API_URL}/products/${productId}`;

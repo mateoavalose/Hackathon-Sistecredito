@@ -13,6 +13,9 @@ export const ProductsPage = () => {
       <Link to="/add-product">
         <button>Agregar</button>
       </Link>
+      <Link to="/modify-product">
+        <button>Modificar</button>
+      </Link>
     </div>
   );
 };
