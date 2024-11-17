@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Product } from './product.entity';
 
 @Entity('product_history')
@@ -19,5 +25,6 @@ export class ProductHistory {
   date: Date;
 
   @ManyToOne(() => Product, (product) => product.history)
+  @JoinColumn({ name: 'product_id' })
   product: Product;
 }
