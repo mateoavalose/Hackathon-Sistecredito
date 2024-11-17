@@ -6,6 +6,7 @@ import { ListProducts } from "./pages/ListProducts";
 import { ShowAProduct } from "./pages/ShowAProduct";
 import { NewProduct } from "./pages/NewProduct";
 import { ModifyProduct } from "./pages/ModifyProduct";
+import { DeleteProduct } from "./pages/DeleteProduct";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/one-product" element={<ShowAProduct />} />
         <Route path="/add-product" element={<NewProduct />} />
         <Route path="/modify-product" element={<ModifyProduct />} />
+        <Route path="/delete-product" element={<DeleteProduct />} />
       </Routes>
     </Router>
   );
