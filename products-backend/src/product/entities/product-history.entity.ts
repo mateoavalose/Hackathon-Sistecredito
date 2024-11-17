@@ -24,7 +24,9 @@ export class ProductHistory {
   @Column({ type: 'date', default: () => 'CURRENT_DATE' })
   date: Date;
 
-  @ManyToOne(() => Product, (product) => product.history)
+  @ManyToOne(() => Product, (product) => product.history, {
+    onDelete: 'NO ACTION',
+  })
   @JoinColumn({ name: 'product_id' })
   product: Product;
 }

@@ -46,13 +46,16 @@ export class ProductService {
   }
 
   async findAll() {
-    const products = await this.productRepository.find();
+    const products = await this.productRepository.find({
+      where: { is_deleted: false },
+    });
     return products;
   }
 
   async findOne(id: string) {
-    console.log(`Buscando producto con ID: ${id}`);
-    const product = await this.productRepository.findOneBy({ product_id: id });
+    const product = await this.productRepository.findOne({
+      where: { product_id: id, is_deleted: false },
+    });
     if (!product) {
       throw new NotFoundException('Product not found');
     }
@@ -85,7 +88,8 @@ export class ProductService {
 
   async remove(id: string) {
     const product = await this.findOne(id);
-    await this.productRepository.delete(product);
+    product.is_deleted = true;
+    await this.productRepository.save(product);
     return product;
   }
 

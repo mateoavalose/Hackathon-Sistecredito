@@ -15,6 +15,9 @@ export class Product {
   @Column('float', { default: 0 })
   product_price: number;
 
+  @Column('boolean', { default: false })
+  is_deleted: boolean;
+
   @OneToMany(() => ProductHistory, (history) => history.product)
   history: ProductHistory[];
 }
