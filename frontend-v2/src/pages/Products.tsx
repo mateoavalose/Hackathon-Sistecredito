@@ -10,6 +10,9 @@ export const ProductsPage = () => {
       <Link to="/one-product">
         <button>Uno</button>
       </Link>
+      <Link to="/add-product">
+        <button>Agregar</button>
+      </Link>
     </div>
   );
 };
