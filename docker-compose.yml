@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  microservice:
+    build:
+      context: ./products-backend 
+    ports:
+      - "3001:3000"
+    environment:
+      NODE_ENV: production
+      NATS_URL: nats-server:4222  # Dirección del servidor NATS
+    volumes:
+      - ./products-backend:/app
+      - ./products-backend/dist:/app/dist
+    networks:
+      - nest-net
+    depends_on:
+      - nats-server  # Asegura que NATS esté en funcionamiento antes de iniciar el microservicio
+
+  apigateway:
+    build:
+      context: ./api-gateway  
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      NATS_URL: nats-server:4222  # Dirección del servidor NATS
+    volumes:
+      - ./api-gateway:/app
+      - ./products-backend/dist:/app/dist
+    networks:
+      - nest-net
+    depends_on:
+      - microservice
+
+  nats-server:
+    image: nats
+    container_name: nats-server
+    ports:
+      - "4222:4222"  # Puerto para NATS
+      - "8222:8222"  # Interfaz de administración de NATS (opcional)
+    networks:
+      - nest-net
+
+networks:
+  nest-net:
+    driver: bridge      
