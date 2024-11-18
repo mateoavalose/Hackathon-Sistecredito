@@ -7,6 +7,7 @@ import { ShowAProduct } from "./pages/ShowAProduct";
 import { NewProduct } from "./pages/NewProduct";
 import { ModifyProduct } from "./pages/ModifyProduct";
 import { DeleteProduct } from "./pages/DeleteProduct";
+import { Prediction } from "./pages/Prediction";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/add-product" element={<NewProduct />} />
         <Route path="/modify-product" element={<ModifyProduct />} />
         <Route path="/delete-product" element={<DeleteProduct />} />
+        <Route path="/prediction" element={<Prediction />} />
       </Routes>
     </Router>
   );

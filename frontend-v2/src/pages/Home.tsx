@@ -7,6 +7,9 @@ export const HomePage = () => {
       <Link to="/product">
         <button>Products</button>
       </Link>
+      <Link to="/prediction">
+        <button>Prediction</button>
+      </Link>
     </div>
   );
 };
