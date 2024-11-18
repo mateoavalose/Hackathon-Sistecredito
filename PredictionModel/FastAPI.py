@@ -44,6 +44,23 @@ async def fetch_product_history(product_id: str):
 
 # Función para predecir el stock de un producto específico
 def predict_stock(df_producto: pd.DataFrame, lags: int = 3, future_periods: int = 6):
+    # Convertir fechas y ordenar
+    df_producto['Date'] = pd.to_datetime(df_producto['Date'], errors='coerce')
+    df_producto = df_producto.sort_values('Date').reset_index(drop=True)
+
+    # Ajustar número de lags dinámicamente
+    lags = min(lags, len(df_producto) - 1)  # Asegurarse de que haya suficientes registros
+    if len(df_producto) <= lags:
+        raise ValueError(f"Insuficientes registros históricos para calcular lags. Necesitas al menos {lags + 1} registros.")
+
+    # Crear rango de fechas futuras
+    last_date = df_producto['Date'].max()
+    futuros_meses = pd.date_range(
+        start=last_date + pd.DateOffset(months=1),
+        periods=future_periods,
+        freq='M'
+    )
+
     # Crear variables de lag
     for i in range(1, lags + 1):
         df_producto[f'Stock_t-{i}'] = df_producto['Stock'].shift(i)
@@ -58,7 +75,6 @@ def predict_stock(df_producto: pd.DataFrame, lags: int = 3, future_periods: int 
     modelo.fit(X, y)
 
     # Generar predicciones para los próximos periodos
-    futuros_meses = pd.date_range(start=df_producto['Date'].max() + pd.DateOffset(months=1), periods=future_periods, freq='ME')
     predicciones_futuras = []
     ultimos_valores = list(df_producto['Stock'].tail(lags).values)
 
@@ -77,7 +93,7 @@ def predict_stock(df_producto: pd.DataFrame, lags: int = 3, future_periods: int 
     plt.plot(df_predicciones['Date'], df_predicciones['Stock'], label='Predicción', linestyle='--', marker='x')
     plt.xlabel('Fecha')
     plt.ylabel('Stock')
-    plt.title(f'Histórico de Stock y Predicciones del Modelo para ProductID = {df_producto["ProductID"].iloc[0]}')
+    plt.title(f'Histórico de Stock y Predicciones del Modelo para ProductID = {df_producto['ProductID'].iloc[0]}')
     plt.legend()
     plt.grid()
 
