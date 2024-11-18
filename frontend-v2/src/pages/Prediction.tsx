@@ -5,9 +5,11 @@ export const Prediction = () => {
   const [productId, setProductId] = useState("");
   const [showPng, setShowPng] = useState(false);
   const [image, setImage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const fetchPrediction = async () => {
     const API_URL = import.meta.env.VITE_FASTAPI_URL;
+    setErrorMessage("");
     try {
       const response = await axios.get(`${API_URL}/predict/${productId}`, {
         responseType: "arraybuffer",
@@ -22,9 +24,22 @@ export const Prediction = () => {
         setShowPng(true);
       };
       reader.readAsDataURL(blob);
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response.status === 404) {
+        setErrorMessage("Producto no encontrado");
+      } else if ((error.response.status = 500)) {
+        const decoder = new TextDecoder("utf-8");
+        const jsonString = decoder.decode(error.response.data);
+        const errorData = JSON.parse(jsonString);
+        setErrorMessage(errorData.detail);
+      } else {
+        setErrorMessage(
+          "Ocurrió un error inesperado. Por favor, inténtelo más tarde."
+        );
+      }
       console.error(error);
       setShowPng(false);
+      setImage("");
     }
   };
 
@@ -40,6 +55,7 @@ export const Prediction = () => {
         <button onClick={fetchPrediction}>Buscar producto</button>
       </div>
 
+      {errorMessage && <p>{errorMessage}</p>}
       {showPng && <img src={image} alt="Prediction" />}
     </div>
   );
