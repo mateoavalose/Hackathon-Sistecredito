@@ -8,14 +8,15 @@ from xgboost import XGBRegressor
 import asyncpg
 import os
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 # Configuración de FastAPI
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[""],  # Permitir todos los orígenes, incluidas todas las IPs
+    allow_origins=["*"],  # Permitir todos los orígenes, incluidas todas las IPs
     allow_credentials=True,
-    allow_methods=[""],  # Permitir todos los métodos HTTP (GET, POST, etc.)
+    allow_methods=["*"],  # Permitir todos los métodos HTTP (GET, POST, etc.)
     allow_headers=["*"],  # Permitir todos los encabezados
 )
 
