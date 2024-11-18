@@ -11,6 +11,13 @@ from dotenv import load_dotenv
 
 # Configuración de FastAPI
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[""],  # Permitir todos los orígenes, incluidas todas las IPs
+    allow_credentials=True,
+    allow_methods=[""],  # Permitir todos los métodos HTTP (GET, POST, etc.)
+    allow_headers=["*"],  # Permitir todos los encabezados
+)
 
 # Variables de entorno para la conexión a la base de datos
 load_dotenv()
