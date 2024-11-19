@@ -38,7 +38,7 @@ export const HomePage = () => {
           Manage your products and explore predictions with ease and precision.
         </p>
         <div className="flex justify-between gap-4">
-          <Link to="/product">
+          <Link to="/productManager">
             <button className="w-full py-4 px-8 bg-blue-600 text-white font-semibold rounded-lg shadow-md transform transition-all duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
               Products
             </button>
