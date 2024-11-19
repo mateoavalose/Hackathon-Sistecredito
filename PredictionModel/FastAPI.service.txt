@@ -1,0 +1,14 @@
+[Unit]
+Description=FastAPI Application
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/Hackathon-Sistecredito/PredictionModel
+ExecStart=/home/ubuntu/miniconda3/envs/venv/bin/uvicorn FastAPI:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
