@@ -6,7 +6,7 @@ export class Product {
   @PrimaryColumn()
   product_id: string;
 
-  @Column('text', { unique: true })
+  @Column('text')
   product_name: string;
 
   @Column('int', { default: 0 })
