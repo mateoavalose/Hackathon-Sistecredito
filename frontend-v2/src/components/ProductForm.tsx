@@ -44,7 +44,7 @@ export const ProductForm = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const API_URL = import.meta.env.VITE_BACKEND_URL;
+    const API_URL = "/api";
     const method = isCreating ? "post" : "patch";
     const endpoint = isCreating
       ? `${API_URL}/products`
@@ -56,17 +56,26 @@ export const ProductForm = ({
       product_price: productPrice,
     };
 
+   console.log("payload: ", payload);
+
     try {
       const response = await axios[method](endpoint, payload);
       alert("Producto guardado");
       setProductId("");
       setProductName("");
-      setProductStock(undefined);
-      setProductPrice(undefined);
+      setProductStock(0);
+      setProductPrice(0);
       console.log(response.data);
     } catch (error) {
-      console.error("Error al guardar el producto:", error);
-      alert("Error al guardar el producto");
+      if (axios.isAxiosError(error)) {
+      // Si es un error de Axios, puedes acceder a la respuesta
+      console.error("Error al guardar el producto:", error.response?.data || error.message);
+      alert("Error al guardar el producto: " + (error.response?.data || error.message));
+    } else {
+      // Si no es un error de Axios, muestra un mensaje genérico
+      console.error("Error inesperado:", error);
+      alert("Error inesperado al guardar el producto.");
+    }
     }
   };
 
