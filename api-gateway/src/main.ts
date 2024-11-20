@@ -6,7 +6,7 @@ async function bootstrap() {
 
   // Habilitar CORS en el API Gateway
   app.enableCors({
-    origin: 'http://localhost:5173', // Cambia según el origen permitido
+    origin: '*', // Cambia según el origen permitido
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true,
   });
