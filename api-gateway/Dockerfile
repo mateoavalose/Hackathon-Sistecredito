@@ -10,11 +10,11 @@ COPY package*.json ./
 # Instalar las dependencias de npm
 RUN npm install
 
-# Configurar una carpeta local para la caché de npm
-RUN npm config set cache /app/.npm-cache --global
-
 # Copiar el resto de los archivos del proyecto
 COPY . .
+
+# Eliminar la carpeta 'dist' si es necesario (solo si ya no es útil para la ejecución)
+RUN rm -rf /app/dist
 
 # Exponer el puerto que la aplicación va a usar
 EXPOSE 3000

@@ -10,8 +10,7 @@ services:
       NODE_ENV: production
       NATS_URL: nats-server:4222  # Dirección del servidor NATS
     volumes:
-      - ./products-backend:/app
-      - ./products-backend/dist:/app/dist
+      - shared-data:/app/proto
     networks:
       - nest-net
     depends_on:
@@ -26,8 +25,7 @@ services:
       NODE_ENV: production
       NATS_URL: nats-server:4222  # Dirección del servidor NATS
     volumes:
-      - ./api-gateway:/app
-      - ./products-backend/dist:/app/dist
+      - shared-data:/app/proto
     networks:
       - nest-net
     depends_on:
@@ -37,11 +35,14 @@ services:
     image: nats
     container_name: nats-server
     ports:
-      - "4222:4222"  # Puerto para NATS
-      - "8222:8222"  # Interfaz de administración de NATS (opcional)
+      - "4223:4222"  # Puerto para NATS
+      - "8223:8222"  # Interfaz de administración de NATS (opcional)
     networks:
       - nest-net
 
 networks:
   nest-net:
     driver: bridge      
+
+volumes:
+  shared-data:
