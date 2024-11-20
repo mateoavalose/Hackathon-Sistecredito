@@ -6,7 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build && mkdir -p dist/proto && cp -r src/product/proto/* dist/proto",
+    "copy-proto": "cp -R ./protos/*.proto ./protos/",
+    "build": "npm run copy-proto && tsc",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "npm run build && node dist/main",
     "start:dev": "nest start --watch",
